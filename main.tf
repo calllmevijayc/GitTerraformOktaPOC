@@ -1,24 +1,20 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.27"
-    }
-  }
+#The configuration for the `remote` backend.
+     terraform {
+       backend "remote" {
+          The name of your Terraform Cloud organization.
+         organization = "example-organization"
+ 
+          #The name of the Terraform Cloud workspace to store Terraform state files in.
+         workspaces {
+           name = "example-workspace"
+         }
+       }
+     }
 
-  required_version = ">= 0.14.9"
-}
+      #in example resource that does nothing.
+     resource "null_resource" "example" {
+       triggers = {
+         value = "A example resource that does nothing!"
+       }
+     }
 
-provider "aws" {
-  profile = "default"
-  region  = "us-west-2"
-}
-
-resource "aws_instance" "app_server" {
-  ami           = "ami-830c94e3"
-  instance_type = "t2.micro"
-
-  tags = {
-    Name = "ExampleAppServerInstance"
-  }
-}
